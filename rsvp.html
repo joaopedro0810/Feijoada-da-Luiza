@@ -405,14 +405,7 @@
         <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/></svg>
       </div>
 
-      <form id="rsvp-form" action="https://formsubmit.co/joaopedrocastro.08@gmail.com" method="POST">
-
-        <!-- Anti-spam e configurações do FormSubmit -->
-        <input type="hidden" name="_subject" value="🍼 Nova confirmação — Chá de Fralda da Luiza" />
-        <input type="hidden" name="_captcha" value="false" />
-        <input type="hidden" name="_template" value="table" />
-        <input type="hidden" name="_next" value="https://joaopedro0810.github.io/Feijoada-da-Luiza/rsvp.html?ok=1" />
-        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+      <form id="rsvp-form">
 
         <div class="field">
           <label class="field-label" for="nome">Seu nome completo</label>
@@ -502,12 +495,7 @@
 </div>
 
 <script>
-  // Mostrar tela de sucesso se voltou do FormSubmit com ?ok=1
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('ok') === '1') {
-    document.getElementById('form-wrapper').style.display = 'none';
-    document.getElementById('success').classList.add('visible');
-  }
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxG-WDwI2KKbi6ddD3w0PTeRGRrYqrItMaBgKjddKIN67YTj1Z92zOCeeQ_JhBJSF33/exec';
 
   const vaiSim = document.getElementById('vai-sim');
   const vaiNao = document.getElementById('vai-nao');
@@ -583,19 +571,68 @@
     if (qtd > 1) { qtd--; renderCompanions(); }
   });
 
-  // Total de pessoas (titular + acompanhantes) enviado junto
-  document.getElementById('rsvp-form').addEventListener('submit', (e) => {
-    const totalInput = document.createElement('input');
-    totalInput.type = 'hidden';
-    totalInput.name = 'total_pessoas';
-    let total = 1;
-    if (vaiNao.checked) total = 0;
-    else if (acSim.checked) total = 1 + (parseInt(qtdInput.value) || 0);
-    totalInput.value = total;
-    e.target.appendChild(totalInput);
+  // Enviar para Google Sheets
+  document.getElementById('rsvp-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
 
-    document.getElementById('submit-btn').disabled = true;
-    document.getElementById('submit-btn').textContent = 'Enviando...';
+    // Coletar dados
+    const nome = document.getElementById('nome').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const confirmacao = document.querySelector('input[name="confirmacao"]:checked')?.value || '';
+    const mensagem = document.getElementById('mensagem').value.trim();
+    
+    // Calcular total de pessoas
+    let totalPessoas = 1;
+    let acompanhantesLista = '';
+    
+    if (vaiNao.checked) {
+      totalPessoas = 0;
+    } else if (acSim.checked) {
+      const qtdAcomp = parseInt(qtdInput.value) || 0;
+      totalPessoas = 1 + qtdAcomp;
+      
+      // Coletar nomes dos acompanhantes
+      const nomes = [];
+      for (let i = 1; i <= qtdAcomp; i++) {
+        const input = document.querySelector(`input[name="acompanhante_${i}"]`);
+        if (input && input.value.trim()) {
+          nomes.push(input.value.trim());
+        }
+      }
+      acompanhantesLista = nomes.join(', ');
+    }
+
+    const dados = {
+      nome,
+      telefone,
+      confirmacao,
+      acompanhantes: acompanhantesLista,
+      total_pessoas: totalPessoas,
+      mensagem
+    };
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+
+      // Mostrar tela de sucesso
+      document.getElementById('form-wrapper').style.display = 'none';
+      document.getElementById('success').classList.add('visible');
+      
+    } catch (error) {
+      console.error('Erro ao enviar:', error);
+      alert('Ops! Ocorreu um erro ao enviar. Por favor, tente novamente.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Confirmar 💜';
+    }
   });
 </script>
 
