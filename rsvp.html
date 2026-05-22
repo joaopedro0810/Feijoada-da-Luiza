@@ -333,6 +333,37 @@
     margin-bottom: 22px;
   }
 
+  .cal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 24px;
+    margin-bottom: 16px;
+    background: white;
+    color: var(--lavender-deep);
+    border: 2px solid var(--lavender-soft);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-family: inherit;
+  }
+  .cal-btn:hover {
+    background: var(--lavender-soft);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(138, 111, 176, 0.35);
+  }
+  .cal-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
   .helper {
     font-size: 12px;
     color: #8a7ca0;
@@ -488,6 +519,14 @@
       <div class="check">✓</div>
       <h2>Presença confirmada!</h2>
       <p>Obrigada por confirmar 💜<br>A Luiza, a mamãe e o papai estão muito felizes!<br>Te esperamos no dia <strong>13 de Junho</strong>.</p>
+      
+      <button id="add-to-calendar" class="cal-btn">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 4h5v5h-5z"/>
+        </svg>
+        Adicionar ao Calendário
+      </button>
+      
       <a href="index.html" class="submit-btn" style="text-decoration:none; text-align:center;">Voltar ao convite</a>
     </div>
 
@@ -632,6 +671,53 @@
         document.getElementById('success').classList.add('visible');
       }
     }, 3000);
+  });
+
+  // Adicionar ao calendário - gera arquivo .ics
+  document.getElementById('add-to-calendar').addEventListener('click', function() {
+    // Dados do evento
+    const evento = {
+      titulo: 'Chá de Fralda da Luiza 💜',
+      descricao: 'Chá de Fralda da Luiza - Venha celebrar com a gente!',
+      local: 'Chácara da Vovó Lu',
+      dataInicio: '20260613T130000', // 13 de Junho de 2026, 13:00
+      dataFim: '20260613T170000'     // 13 de Junho de 2026, 17:00
+    };
+
+    // Criar conteúdo do arquivo .ics
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Chá de Fralda//Luiza//PT',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      'UID:' + new Date().getTime() + '@chadafraldaluiza.com',
+      'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z',
+      'DTSTART:' + evento.dataInicio,
+      'DTEND:' + evento.dataFim,
+      'SUMMARY:' + evento.titulo,
+      'DESCRIPTION:' + evento.descricao,
+      'LOCATION:' + evento.local,
+      'STATUS:CONFIRMED',
+      'SEQUENCE:0',
+      'BEGIN:VALARM',
+      'TRIGGER:-PT24H',
+      'ACTION:DISPLAY',
+      'DESCRIPTION:Lembrete: Chá de Fralda da Luiza amanhã!',
+      'END:VALARM',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    // Criar blob e fazer download
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'cha-de-fralda-luiza.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   });
 </script>
 
