@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Confirmar Presença · Chá de Fralda da Luiza 💜</title>
+<meta name="description" content="Confirme sua presença no Chá de Fralda da Luiza." />
+
+<meta property="og:title" content="Confirmar Presença · Chá de Fralda da Luiza 💜" />
+<meta property="og:description" content="13 de Junho • 13h • Chácara da Vovó Lu" />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --lavender-deep: #6b4a8b;
+    --lavender: #8a6fb0;
+    --lavender-soft: #b89dd4;
+    --lavender-bg: #f5f0fa;
+    --lavender-bg-2: #ece3f5;
+    --cream: #fbf8fc;
+    --text: #4a3a5e;
+    --danger: #c25a7a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: linear-gradient(135deg, #efe6f7 0%, #f8f3fc 50%, #efe6f7 100%);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px 12px;
+  }
+
+  .card {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    background: var(--cream);
+    border-radius: 24px;
+    box-shadow:
+      0 20px 60px rgba(107, 74, 139, 0.25),
+      0 6px 20px rgba(107, 74, 139, 0.12);
+    overflow: hidden;
+    padding: 48px 30px 36px;
+    animation: fadeUp 0.8s ease-out;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .deco {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .deco.tl { top: -20px; left: -30px; transform: rotate(-15deg); }
+  .deco.br { bottom: -25px; right: -30px; transform: rotate(170deg); }
+
+  .content { position: relative; z-index: 1; text-align: center; }
+
+  .intro {
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    font-size: 12px;
+    color: var(--lavender-deep);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 56px;
+    color: var(--lavender);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--lavender-deep);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .event-info {
+    font-size: 13px;
+    color: #7a6a8c;
+    margin-bottom: 26px;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto 26px;
+    color: var(--lavender-soft);
+  }
+  .divider::before, .divider::after {
+    content: "";
+    height: 1px;
+    width: 40px;
+    background: linear-gradient(to right, transparent, var(--lavender-soft), transparent);
+  }
+  .divider svg { width: 16px; height: 16px; fill: var(--lavender); }
+
+  form { text-align: left; }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  label.field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--lavender-deep);
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  input[type="text"], input[type="tel"], select {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #e0d4ed;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--text);
+    background: white;
+    transition: all 0.2s ease;
+  }
+  input[type="text"]:focus, input[type="tel"]:focus, select:focus {
+    outline: none;
+    border-color: var(--lavender);
+    box-shadow: 0 0 0 3px rgba(138, 111, 176, 0.15);
+  }
+
+  /* Botões de rádio customizados */
+  .radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .radio-option {
+    position: relative;
+  }
+  .radio-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .radio-option label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 12px;
+    border: 1.5px solid #e0d4ed;
+    border-radius: 12px;
+    background: white;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .radio-option label:hover {
+    border-color: var(--lavender-soft);
+    background: var(--lavender-bg);
+  }
+  .radio-option input:checked + label {
+    border-color: var(--lavender);
+    background: linear-gradient(135deg, var(--lavender-deep), var(--lavender));
+    color: white;
+    box-shadow: 0 6px 16px rgba(138, 111, 176, 0.35);
+  }
+
+  /* Stepper de quantidade */
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: white;
+    border: 1.5px solid #e0d4ed;
+    border-radius: 12px;
+    padding: 6px 8px;
+    width: fit-content;
+    margin: 0 auto;
+  }
+  .stepper button {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: var(--lavender-bg-2);
+    color: var(--lavender-deep);
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stepper button:hover:not(:disabled) {
+    background: var(--lavender);
+    color: white;
+  }
+  .stepper button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .stepper .count {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--lavender-deep);
+    min-width: 36px;
+    text-align: center;
+  }
+
+  .companions-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--lavender-soft);
+    display: none;
+  }
+  .companions-section.visible { display: block; }
+
+  .companion-input {
+    margin-bottom: 10px;
+    animation: slideIn 0.3s ease-out;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .hidden-section { display: none; }
+  .hidden-section.visible { display: block; animation: slideIn 0.4s ease-out; }
+
+  .submit-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    margin-top: 12px;
+    background: linear-gradient(135deg, var(--lavender-deep) 0%, var(--lavender) 100%);
+    color: white;
+    border: none;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(107, 74, 139, 0.4);
+    transition: all 0.3s ease;
+    font-family: inherit;
+  }
+  .submit-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(107, 74, 139, 0.55);
+  }
+  .submit-btn:disabled { opacity: 0.6; cursor: wait; }
+
+  .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--lavender-deep);
+    text-decoration: none;
+    opacity: 0.75;
+  }
+  .back-link:hover { opacity: 1; text-decoration: underline; }
+
+  /* Tela de sucesso */
+  .success {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+  }
+  .success.visible { display: block; animation: fadeUp 0.6s ease-out; }
+  .success .check {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, var(--lavender-deep), var(--lavender));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 40px;
+    box-shadow: 0 10px 30px rgba(138, 111, 176, 0.4);
+    animation: pop 0.5s ease-out;
+  }
+  @keyframes pop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+  }
+  .success h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    color: var(--lavender-deep);
+    margin-bottom: 12px;
+  }
+  .success p {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--text);
+    margin-bottom: 22px;
+  }
+
+  .helper {
+    font-size: 12px;
+    color: #8a7ca0;
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  @media (max-width: 380px) {
+    .card { padding: 40px 20px 28px; }
+    h1 { font-size: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <svg class="deco tl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#8a6fb0" stroke-width="1.5" stroke-linecap="round">
+      <path d="M40 30 Q 60 80 70 160" opacity="0.5"/>
+      <path d="M30 50 Q 55 90 50 170" opacity="0.4"/>
+      <path d="M60 25 Q 80 70 95 150" opacity="0.45"/>
+    </g>
+    <g fill="#a487c4" opacity="0.75">
+      <ellipse cx="42" cy="40" rx="5" ry="7"/><ellipse cx="46" cy="55" rx="5" ry="7"/>
+      <ellipse cx="50" cy="70" rx="5" ry="7"/><ellipse cx="54" cy="85" rx="5" ry="7"/>
+      <ellipse cx="58" cy="100" rx="5" ry="7"/><ellipse cx="62" cy="115" rx="5" ry="7"/>
+    </g>
+    <g fill="#b89dd4" opacity="0.7">
+      <ellipse cx="32" cy="60" rx="4" ry="6"/><ellipse cx="36" cy="78" rx="4" ry="6"/>
+      <ellipse cx="40" cy="96" rx="4" ry="6"/><ellipse cx="44" cy="114" rx="4" ry="6"/>
+    </g>
+    <g fill="#9a7cbb" opacity="0.7">
+      <ellipse cx="65" cy="40" rx="4" ry="6"/><ellipse cx="72" cy="58" rx="4" ry="6"/>
+      <ellipse cx="79" cy="76" rx="4" ry="6"/><ellipse cx="86" cy="94" rx="4" ry="6"/>
+    </g>
+  </svg>
+
+  <svg class="deco br" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#8a6fb0" stroke-width="1.5" stroke-linecap="round">
+      <path d="M40 30 Q 60 80 70 160" opacity="0.5"/>
+      <path d="M30 50 Q 55 90 50 170" opacity="0.4"/>
+      <path d="M60 25 Q 80 70 95 150" opacity="0.45"/>
+    </g>
+    <g fill="#a487c4" opacity="0.75">
+      <ellipse cx="42" cy="40" rx="5" ry="7"/><ellipse cx="46" cy="55" rx="5" ry="7"/>
+      <ellipse cx="50" cy="70" rx="5" ry="7"/><ellipse cx="54" cy="85" rx="5" ry="7"/>
+      <ellipse cx="58" cy="100" rx="5" ry="7"/><ellipse cx="62" cy="115" rx="5" ry="7"/>
+    </g>
+    <g fill="#b89dd4" opacity="0.7">
+      <ellipse cx="32" cy="60" rx="4" ry="6"/><ellipse cx="36" cy="78" rx="4" ry="6"/>
+      <ellipse cx="40" cy="96" rx="4" ry="6"/><ellipse cx="44" cy="114" rx="4" ry="6"/>
+    </g>
+    <g fill="#9a7cbb" opacity="0.7">
+      <ellipse cx="65" cy="40" rx="4" ry="6"/><ellipse cx="72" cy="58" rx="4" ry="6"/>
+      <ellipse cx="79" cy="76" rx="4" ry="6"/><ellipse cx="86" cy="94" rx="4" ry="6"/>
+    </g>
+  </svg>
+
+  <div class="content">
+
+    <!-- Formulário -->
+    <div id="form-wrapper">
+      <p class="intro">Confirme sua presença</p>
+      <h1>Luiza</h1>
+      <div class="subtitle">Chá de Fralda</div>
+      <p class="event-info">13 de Junho de 2026 · às 13h · Chácara da Vovó Lu</p>
+
+      <div class="divider">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/></svg>
+      </div>
+
+      <form id="rsvp-form">
+
+        <div class="field">
+          <label class="field-label" for="nome">Seu nome completo</label>
+          <input type="text" id="nome" name="nome" required placeholder="Ex.: Maria da Silva" />
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="telefone">WhatsApp (opcional)</label>
+          <input type="tel" id="telefone" name="telefone" placeholder="(38) 99999-9999" />
+          <div class="helper">Caso precisemos entrar em contato 💜</div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Você vai poder ir? 🥰</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="vai-sim" name="confirmacao" value="Sim, vou!" required />
+              <label for="vai-sim">💜 Sim, vou!</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="vai-nao" name="confirmacao" value="Não posso ir" required />
+              <label for="vai-nao">😢 Não posso</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção que aparece se for "Sim" -->
+        <div id="se-vai" class="hidden-section">
+
+          <div class="field">
+            <label class="field-label">Vai levar acompanhantes?</label>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" id="ac-nao" name="tem_acompanhantes" value="Não" />
+                <label for="ac-nao">Vou sozinho(a)</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="ac-sim" name="tem_acompanhantes" value="Sim" />
+                <label for="ac-sim">Sim 👨‍👩‍👧</label>
+              </div>
+            </div>
+          </div>
+
+          <div id="acompanhantes-section" class="companions-section">
+            <label class="field-label" style="text-align:center; display:block;">
+              Quantos acompanhantes?
+            </label>
+            <div class="stepper">
+              <button type="button" id="btn-menos" aria-label="Diminuir">−</button>
+              <div class="count" id="qtd-display">1</div>
+              <button type="button" id="btn-mais" aria-label="Aumentar">+</button>
+            </div>
+            <input type="hidden" name="quantidade_acompanhantes" id="qtd-input" value="0" />
+
+            <div class="helper" style="text-align:center; margin-top:10px;">
+              Preencha o nome de cada um abaixo 💜
+            </div>
+
+            <div id="companions-list" style="margin-top:14px;"></div>
+          </div>
+
+        </div>
+
+        <!-- Mensagem opcional -->
+        <div class="field" id="campo-mensagem" style="display:none;">
+          <label class="field-label" for="mensagem">Deixe um recadinho carinhoso (opcional)</label>
+          <input type="text" id="mensagem" name="mensagem" placeholder="Mal posso esperar!" />
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">
+          Confirmar 💜
+        </button>
+
+        <a href="index.html" class="back-link">← Voltar para o convite</a>
+      </form>
+    </div>
+
+    <!-- Tela de sucesso (mostrada se ?ok=1) -->
+    <div id="success" class="success">
+      <div class="check">✓</div>
+      <h2>Presença confirmada!</h2>
+      <p>Obrigada por confirmar 💜<br>A Luiza, a mamãe e o papai estão muito felizes!<br>Te esperamos no dia <strong>13 de Junho</strong>.</p>
+      <a href="index.html" class="submit-btn" style="text-decoration:none; text-align:center;">Voltar ao convite</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxG-WDwI2KKbi6ddD3w0PTeRGRrYqrItMaBgKjddKIN67YTj1Z92zOCeeQ_JhBJSF33/exec';
+
+  const vaiSim = document.getElementById('vai-sim');
+  const vaiNao = document.getElementById('vai-nao');
+  const seVai = document.getElementById('se-vai');
+  const campoMensagem = document.getElementById('campo-mensagem');
+  const acSim = document.getElementById('ac-sim');
+  const acNao = document.getElementById('ac-nao');
+  const acSection = document.getElementById('acompanhantes-section');
+  const btnMais = document.getElementById('btn-mais');
+  const btnMenos = document.getElementById('btn-menos');
+  const qtdDisplay = document.getElementById('qtd-display');
+  const qtdInput = document.getElementById('qtd-input');
+  const companionsList = document.getElementById('companions-list');
+
+  const MAX_ACOMPANHANTES = 10;
+  let qtd = 1;
+
+  function atualizarConfirmacao() {
+    if (vaiSim.checked) {
+      seVai.classList.add('visible');
+      campoMensagem.style.display = 'block';
+    } else {
+      seVai.classList.remove('visible');
+      campoMensagem.style.display = 'block';
+      acSection.classList.remove('visible');
+      acSim.checked = false;
+      acNao.checked = false;
+    }
+  }
+  vaiSim.addEventListener('change', atualizarConfirmacao);
+  vaiNao.addEventListener('change', atualizarConfirmacao);
+
+  function mostrarAcompanhantes() {
+    if (acSim.checked) {
+      acSection.classList.add('visible');
+      qtd = parseInt(qtdInput.value) || 1;
+      if (qtd < 1) qtd = 1;
+      renderCompanions();
+    } else {
+      acSection.classList.remove('visible');
+      qtdInput.value = '0';
+      companionsList.innerHTML = '';
+    }
+  }
+  acSim.addEventListener('change', mostrarAcompanhantes);
+  acNao.addEventListener('change', mostrarAcompanhantes);
+
+  function renderCompanions() {
+    qtdDisplay.textContent = qtd;
+    qtdInput.value = qtd;
+    btnMenos.disabled = qtd <= 1;
+    btnMais.disabled = qtd >= MAX_ACOMPANHANTES;
+
+    // Preserva valores já digitados
+    const existing = Array.from(companionsList.querySelectorAll('input')).map(i => i.value);
+    companionsList.innerHTML = '';
+    for (let i = 1; i <= qtd; i++) {
+      const div = document.createElement('div');
+      div.className = 'companion-input';
+      div.innerHTML = `
+        <input type="text" name="acompanhante_${i}" required
+               placeholder="Nome do acompanhante ${i}"
+               value="${existing[i-1] ? existing[i-1].replace(/"/g, '&quot;') : ''}" />
+      `;
+      companionsList.appendChild(div);
+    }
+  }
+
+  btnMais.addEventListener('click', () => {
+    if (qtd < MAX_ACOMPANHANTES) { qtd++; renderCompanions(); }
+  });
+  btnMenos.addEventListener('click', () => {
+    if (qtd > 1) { qtd--; renderCompanions(); }
+  });
+
+  // Enviar para Google Sheets via GET (mais confiável com Apps Script)
+  document.getElementById('rsvp-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+
+    // Coletar dados
+    const nome = document.getElementById('nome').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const confirmacao = document.querySelector('input[name="confirmacao"]:checked')?.value || '';
+    const mensagem = document.getElementById('mensagem').value.trim();
+    
+    // Calcular total de pessoas
+    let totalPessoas = 1;
+    let acompanhantesLista = '';
+    
+    if (vaiNao.checked) {
+      totalPessoas = 0;
+    } else if (acSim.checked) {
+      const qtdAcomp = parseInt(qtdInput.value) || 0;
+      totalPessoas = 1 + qtdAcomp;
+      
+      // Coletar nomes dos acompanhantes
+      const nomes = [];
+      for (let i = 1; i <= qtdAcomp; i++) {
+        const input = document.querySelector(`input[name="acompanhante_${i}"]`);
+        if (input && input.value.trim()) {
+          nomes.push(input.value.trim());
+        }
+      }
+      acompanhantesLista = nomes.join(', ');
+    }
+
+    // Construir URL com parâmetros
+    const params = new URLSearchParams({
+      nome: nome,
+      telefone: telefone,
+      confirmacao: confirmacao,
+      acompanhantes: acompanhantesLista,
+      total_pessoas: totalPessoas,
+      mensagem: mensagem
+    });
+
+    // Usar técnica de img/script para contornar CORS
+    const img = new Image();
+    img.onload = img.onerror = function() {
+      // Mostrar tela de sucesso (independente se carregou ou não, o request foi enviado)
+      document.getElementById('form-wrapper').style.display = 'none';
+      document.getElementById('success').classList.add('visible');
+    };
+    img.src = GOOGLE_SCRIPT_URL + '?' + params.toString();
+    
+    // Timeout de segurança - mostrar sucesso após 3 segundos se não responder
+    setTimeout(() => {
+      if (document.getElementById('form-wrapper').style.display !== 'none') {
+        document.getElementById('form-wrapper').style.display = 'none';
+        document.getElementById('success').classList.add('visible');
+      }
+    }, 3000);
+  });
+</script>
+
+</body>
+</html>
