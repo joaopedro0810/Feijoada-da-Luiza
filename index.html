@@ -454,8 +454,34 @@
         <strong>Huggies Supreme Care</strong><br>
         ou <strong>Pampers Premium Care</strong>
       </p>
-      <span class="size">Tamanhos M, G ou GG</span>
+      <span class="size" id="tamanho-fralda">Tamanho G</span>
     </div>
+
+    <script>
+      // Sistema de distribuição ponderada de tamanhos
+      // RN = 5%, P = 10%, M = 15%, G = 35%, GG = 35% (prioriza tamanhos maiores)
+      (function() {
+        const tamanhos = [
+          'RN',           // 1x = 5%
+          'P', 'P',       // 2x = 10%
+          'M', 'M', 'M',  // 3x = 15%
+          'G', 'G', 'G', 'G', 'G', 'G', 'G',  // 7x = 35%
+          'GG', 'GG', 'GG', 'GG', 'GG', 'GG', 'GG'  // 7x = 35%
+        ];
+        
+        // Usa localStorage para manter o mesmo tamanho para o mesmo dispositivo
+        let tamanhoSalvo = localStorage.getItem('tamanho-fralda-luiza');
+        
+        if (!tamanhoSalvo) {
+          // Sorteia um tamanho na primeira visita
+          const indice = Math.floor(Math.random() * tamanhos.length);
+          tamanhoSalvo = tamanhos[indice];
+          localStorage.setItem('tamanho-fralda-luiza', tamanhoSalvo);
+        }
+        
+        document.getElementById('tamanho-fralda').textContent = 'Tamanho ' + tamanhoSalvo;
+      })();
+    </script>
 
     <p class="note">
       Ahh… fique à vontade para levar seu <em>cooler</em> com sua bebida preferida! 🥂
